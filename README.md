@@ -95,10 +95,10 @@ Unreachable nodes (0, 1, 2, 3) are reported as ∞ or −∞.
 ## 5. Performance Metrics Summary
 
 | Dataset        | Algorithm          | Time (ns) | DFS Visits | Queue Push | Queue Pop | Relaxations |
-|----------------|--------------------|------------|-------------|-------------|-------------|
-| tasks (1).json | SCC                | 520 000    | 8           | 0           | 0           | 0 |
-| tasks (1).json | Topological Sort   | 320 000    | 0           | 8           | 8           | 0 |
-| tasks (1).json | DAG Shortest Path  | 430 000    | 0           | 0           | 0           | 3 |
+|----------------|--------------------|-----------:|------------:|------------:|------------:|-------------:|
+| tasks (1).json | SCC                | 520000     | 8           | N/A         | N/A         | N/A |
+| tasks (1).json | Topological Sort   | 320000     | N/A         | 8           | 8           | N/A |
+| tasks (1).json | DAG Shortest Path  | 430000     | N/A         | N/A         | N/A         | 3 |
 
 All measurements were obtained through `System.nanoTime()` and recorded by the `MetricsImpl` class.
 
