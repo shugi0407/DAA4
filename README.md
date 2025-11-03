@@ -1,4 +1,4 @@
-# Assignment 4 – Smart City / Smart Campus Scheduling
+# Assignment 4 
 
 **Student:** Shugyla Rafikova
 
