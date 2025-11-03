@@ -165,14 +165,3 @@ java -cp "out:lib/json-20240303.jar" Main
 
 ---
 
-## 10. Grading Reference
-
-| Component                              | Weight (%) |
-| -------------------------------------- | ---------- |
-| SCC + Condensation + Topological Sort  | 35         |
-| DAG Shortest and Longest Path          | 20         |
-| Report and Analysis                    | 25         |
-| Code Quality and JUnit Tests           | 15         |
-| Repository Structure and Documentation | 5          |
-
----
