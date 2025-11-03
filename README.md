@@ -105,16 +105,51 @@ All measurements were obtained through `System.nanoTime()` and recorded by the `
 ---
 
 ## 6. Analysis
-
-**SCC (Kosaraju):** Execution time increases linearly with graph size and edge density. Cyclic graphs require two complete DFS passes, but performance remains efficient for graphs under 50 nodes.
-
-**Topological Sort (Kahn):** Complexity is O(V + E). Queue operations increase proportionally to density but do not significantly affect runtime.
-
-**DAG Shortest Path:** Efficiency depends on the number of edge relaxations. The algorithm operates in linear time on acyclic graphs and is highly scalable.
-
-**Graph Structure Impact:** Denser graphs exhibit higher operation counts and longer execution times. Sparse graphs complete quickly with fewer relaxations.
-
-**Practical Implication:** For real-world task planning, cycle detection (SCC) should precede any topological or path analysis. The combined approach ensures efficient and safe scheduling without logical deadlocks.
+The conducted experiments and performance measurements demonstrate that each algorithm behaves as expected with respect to time complexity, scalability, and sensitivity to graph density. The following subsections provide a detailed interpretation.
+6.1 Strongly Connected Components (Kosaraju’s Algorithm)
+The SCC module exhibits linear growth in execution time as the number of vertices and edges increases. Since Kosaraju’s algorithm performs two complete depth-first searches (DFS)—one on the original graph and another on its transposed form—the time complexity is O(V + E).
+For small and medium-sized datasets, execution time remained below one millisecond, confirming the algorithm’s efficiency for graphs of moderate size.
+The number of DFS visits corresponds directly to the vertex count, while recursion depth depends on the graph’s cyclic structure. Dense graphs introduce more back edges, which increase traversal operations, but overall runtime still scales linearly.
+6.2 Topological Sort (Kahn’s Algorithm)
+The topological sorting stage operates on acyclic graphs or on the condensation graph produced by the SCC process.
+Kahn’s algorithm, which relies on queue-based iteration, displays O(V + E) performance, with complexity primarily dependent on the number of enqueue and dequeue operations.
+Experimental results indicate that queue operations occur once per vertex, and the runtime grows linearly with the size of the graph.
+This predictable and stable behavior confirms the algorithm’s suitability for real-time systems that require consistent ordering guarantees, such as workflow or course prerequisite scheduling.
+6.3 Shortest and Longest Paths in DAG
+The shortest path algorithm applies a dynamic programming approach over the topological order of the DAG, ensuring that each edge is relaxed exactly once.
+This results in O(V + E) time complexity and avoids redundant computations typical of cyclic graph algorithms.
+The longest path variant, which follows similar logic with inverted comparison conditions, identifies the critical path—the longest chain of dependent tasks defining the minimum overall project completion time.
+In the evaluated dataset, the critical path sequence (4 → 5 → 6 → 7) was detected correctly, confirming the accuracy of path reconstruction and relaxation logic.
+6.4 Impact of Graph Density and Structure
+Graph density significantly influences algorithmic performance.
+An increase in edge count leads to higher relaxation and traversal counts, slightly elevating runtime.
+However, all implemented algorithms maintained linear scalability.
+Sparse graphs with fewer dependencies finished faster, while denser cyclic graphs exhibited moderate time increases due to additional edge processing.
+No exponential growth was observed, which validates the linear nature of the implementations.
+This behavior is consistent with theoretical expectations for algorithms operating in O(V + E) time.
+6.5 Comparative Discussion
+Among the three implemented algorithms, Topological Sort demonstrated the lowest execution time because it performs minimal recursion and involves only queue manipulation.
+SCC detection required more computational effort due to two DFS passes but was essential for ensuring acyclicity prior to scheduling.
+DAG Shortest Path operations took slightly longer, as expected, due to edge relaxation overhead, but yielded valuable analytical insights into dependency length and task criticality.
+Overall, the algorithms complemented one another effectively, balancing accuracy and computational efficiency.
+6.6 Practical Relevance
+The combined algorithmic framework is directly applicable to real-world domains requiring dependency analysis and scheduling optimization.
+In smart campus systems, SCC detection can identify interdependent facilities or maintenance tasks, while topological sorting ensures non-conflicting scheduling.
+In smart city infrastructure, DAG-based path computations can be applied to traffic control, resource allocation, and service routing.
+The framework’s modular design, linear runtime, and low memory footprint make it well-suited for integration into large-scale urban and institutional management systems.
+6.7 Theoretical vs. Empirical Comparison
+The observed results closely align with the theoretical time complexities of the implemented algorithms. Each demonstrated linear performance characteristics consistent with O(V + E) complexity, where V represents vertices and E edges.
+Strongly Connected Components (Kosaraju’s Algorithm)
+Theoretical Complexity: O(V + E)
+Empirical Observation: Runtime increases proportionally with graph size. Even for dense graphs with 40–50 nodes, execution remained below one millisecond.
+Topological Sort (Kahn’s Algorithm)
+Theoretical Complexity: O(V + E)
+Empirical Observation: Queue operations scaled linearly with vertex count, confirming predictable and efficient execution.
+DAG Shortest and Longest Paths (Dynamic Programming)
+Theoretical Complexity: O(V + E)
+Empirical Observation: Relaxation counts and timing data verified linear scaling with edge density. The performance advantage over general shortest path algorithms (e.g., Dijkstra’s, Bellman–Ford) was consistently maintained.
+Overall, empirical findings strongly support theoretical predictions. The linear performance pattern observed across all datasets indicates that the algorithms were implemented correctly and executed under stable conditions.
+This consistency demonstrates the robustness and computational soundness of the integrated scheduling framework.
 
 ---
 
